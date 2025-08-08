@@ -54,8 +54,9 @@ async def async_unload_entry(
     hass: HomeAssistant, entry: EredesSmartMeteringPlusConfigEntry
 ) -> bool:
     """Unload a config entry."""
-    # Unload the webhook - use entry_id as webhook_id
-    await async_unload_webhook(hass, entry.entry_id)
+    # Unload the webhook - use webhook_id from entry data
+    webhook_id = entry.data.get("webhook_id", entry.entry_id)
+    await async_unload_webhook(hass, webhook_id)
 
     # Clean up domain data
     if DOMAIN in hass.data and entry.entry_id in hass.data[DOMAIN]:

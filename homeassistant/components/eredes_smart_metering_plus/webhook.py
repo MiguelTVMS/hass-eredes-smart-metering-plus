@@ -22,7 +22,7 @@ _LOGGER = logging.getLogger(__name__)
 
 async def async_setup_webhook(hass: HomeAssistant, entry: ConfigEntry) -> str:
     """Set up webhook for receiving E-Redes data."""
-    webhook_id = entry.entry_id
+    webhook_id = entry.data.get("webhook_id", entry.entry_id)
 
     # Create a handler with the config entry bound to it
     async def webhook_handler(

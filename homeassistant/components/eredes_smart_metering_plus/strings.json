@@ -5,6 +5,9 @@
         "description": "Your webhook URL has been generated. Configure this URL in your E-Redes provider dashboard to receive smart meter data. Copy the URL below and click submit to complete the setup:",
         "data": {
           "webhook_url": "Webhook URL"
+        },
+        "data_description": {
+          "webhook_url": "Copy this URL and configure it in your E-Redes provider dashboard to receive smart meter data."
         }
       }
     },
