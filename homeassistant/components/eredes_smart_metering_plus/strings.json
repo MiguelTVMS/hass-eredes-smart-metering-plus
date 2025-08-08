@@ -1,0 +1,18 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "description": "Set up your E-Redes Smart Metering Plus webhook integration. A unique webhook URL will be generated for receiving smart meter data.",
+        "data": {
+          "name": "Name for this smart meter"
+        }
+      }
+    },
+    "error": {
+      "unknown": "[%key:common::config_flow::error::unknown%]"
+    },
+    "abort": {
+      "already_configured": "[%key:common::config_flow::abort::already_configured_device%]"
+    }
+  }
+}

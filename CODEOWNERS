@@ -452,6 +452,8 @@ build.json @home-assistant/supervisor
 /tests/components/epson/ @pszafer
 /homeassistant/components/eq3btsmart/ @eulemitkeule @dbuezas
 /tests/components/eq3btsmart/ @eulemitkeule @dbuezas
+/homeassistant/components/eredes_smart_metering_plus/ @MiguelTVMS
+/tests/components/eredes_smart_metering_plus/ @MiguelTVMS
 /homeassistant/components/escea/ @lazdavila
 /tests/components/escea/ @lazdavila
 /homeassistant/components/esphome/ @jesserockz @kbx81 @bdraco
