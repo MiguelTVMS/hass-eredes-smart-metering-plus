@@ -3,7 +3,7 @@
   "name": "E-Redes Smart Metering Plus",
   "codeowners": ["@MiguelTVMS"],
   "config_flow": true,
-  "dependencies": ["webhook"],
+  "dependencies": ["webhook", "cloud"],
   "documentation": "https://www.home-assistant.io/integrations/eredes_smart_metering_plus",
   "integration_type": "service",
   "iot_class": "cloud_push",
