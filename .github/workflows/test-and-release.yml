@@ -1,0 +1,71 @@
+name: Test and Release
+
+"on":
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main]
+  release:
+    types: [published]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: Test Custom Component
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest pytest-homeassistant-custom-component
+
+      - name: Run tests
+        run: |
+          python -m pytest tests/custom_components/eredes_smart_metering_plus/ -v
+
+  validate:
+    runs-on: ubuntu-latest
+    name: Validate Custom Component
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Validate component structure
+        run: |
+          python test_custom_component.py
+
+  release:
+    runs-on: ubuntu-latest
+    name: Create Release
+    needs: [test, validate]
+    if: github.event_name == 'release'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create Release Archive
+        run: |
+          cd custom_components
+          zip -r ../eredes_smart_metering_plus.zip eredes_smart_metering_plus/
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./eredes_smart_metering_plus.zip
+          asset_name: eredes_smart_metering_plus.zip
+          asset_content_type: application/zip

@@ -4,9 +4,10 @@
   "codeowners": ["@MiguelTVMS"],
   "config_flow": true,
   "dependencies": ["webhook", "cloud"],
-  "documentation": "https://www.home-assistant.io/integrations/eredes_smart_metering_plus",
+  "documentation": "https://github.com/MiguelTVMS/hass-eredes-smart-metering-plus",
   "integration_type": "service",
   "iot_class": "cloud_push",
   "quality_scale": "bronze",
-  "requirements": []
+  "requirements": [],
+  "version": "1.0.0"
 }

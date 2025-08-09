@@ -1,0 +1,62 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyCharm
+.idea/
+
+# VS Code
+.vscode/
+
+# Home Assistant
+home-assistant.log
+home-assistant_v2.db*
+*.db-journal
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Test files
+test_custom_component.py
+
+# Core Home Assistant files (we don't need these for custom component)
+homeassistant/
+requirements*.txt
+pyproject.toml
+script/
+pylint/
+*.yaml
+!hacs.json
+!quality_scale.yaml
+
+# Keep only custom component essentials
+!custom_components/
+!tests/eredes_smart_metering_plus/
+!README.md
+!LICENSE
+!hacs.json
