@@ -4,9 +4,7 @@
 import asyncio
 from unittest.mock import Mock
 
-from homeassistant.components.eredes_smart_metering_plus.config_flow import (
-    EredesSmartMeteringPlusOptionsFlow,
-)
+from homeassistant.components.eredes_smart_metering_plus import config_flow
 
 
 async def test_options_flow():
@@ -19,9 +17,7 @@ async def test_options_flow():
     }
 
     # Create options flow instance
-    options_flow = EredesSmartMeteringPlusOptionsFlow(mock_config_entry)
-
-    # Test that config entry is stored
+    options_flow = config_flow.EredesSmartMeteringPlusOptionsFlow(mock_config_entry)
     assert options_flow.config_entry == mock_config_entry
 
     # Test that async_step_init exists

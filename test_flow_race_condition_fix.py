@@ -6,13 +6,13 @@ from unittest import mock
 from unittest.mock import Mock
 
 from homeassistant import data_entry_flow
-from homeassistant.components.config.config_entries import websocket_api
+from homeassistant.components import websocket_api
 
 
 class MockConnection:
     """Mock websocket connection."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialize mock connection."""
         self.subscriptions = {}
         self.messages = []
@@ -25,7 +25,7 @@ class MockConnection:
 class MockHass:
     """Mock Home Assistant."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialize mock Home Assistant."""
         self.config_entries = Mock()
         self.config_entries.flow = Mock()
