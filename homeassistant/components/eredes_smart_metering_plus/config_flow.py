@@ -21,19 +21,6 @@ from .const import DOMAIN
 _LOGGER = logging.getLogger(__name__)
 
 
-def create_webhook_info_schema(webhook_url: str) -> vol.Schema:
-    """Create schema showing webhook URL as readonly field."""
-    return vol.Schema(
-        {
-            vol.Required(
-                "webhook_url",
-                default=webhook_url,
-                description={"suggested_value": webhook_url},
-            ): str,
-        }
-    )
-
-
 class EredesSmartMeteringPlusConfigFlow(ConfigFlow, domain=DOMAIN):
     """Handle a config flow for E-Redes Smart Metering Plus."""
 
@@ -72,10 +59,11 @@ class EredesSmartMeteringPlusConfigFlow(ConfigFlow, domain=DOMAIN):
         # Generate the preview URL for display (this will be recreated during setup)
         preview_url = webhook.async_generate_url(self.hass, self._webhook_id)
 
-        # Show webhook information form
+        # Show webhook information with empty schema (no input fields)
+        # The webhook URL will be displayed in the description
         return self.async_show_form(
             step_id="user",
-            data_schema=create_webhook_info_schema(preview_url),
+            data_schema=vol.Schema({}),  # Empty schema = no input fields
             description_placeholders={"webhook_url": preview_url},
         )
 
@@ -88,15 +76,20 @@ class EredesSmartMeteringPlusOptionsFlow(OptionsFlow):
     ) -> ConfigFlowResult:
         """Manage the options for the integration."""
         # Get the webhook URL from config entry data
-        webhook_url = self.config_entry.data.get("webhook_url", "URL not available")
+        webhook_id = self.config_entry.data.get("webhook_id")
+        if webhook_id:
+            webhook_url = webhook.async_generate_url(self.hass, webhook_id)
+        else:
+            webhook_url = "URL not available"
 
         if user_input is not None:
-            # User clicked "OK" or similar, just return to main menu
+            # User clicked the close button, just return to main menu
             return self.async_create_entry(title="", data={})
 
-        # Show the webhook URL in a read-only form
+        # Show the webhook URL with an empty schema (no input fields)
+        # The webhook URL will be displayed in the description
         return self.async_show_form(
             step_id="init",
-            data_schema=create_webhook_info_schema(webhook_url),
+            data_schema=vol.Schema({}),  # Empty schema = no input fields
             description_placeholders={"webhook_url": webhook_url},
         )

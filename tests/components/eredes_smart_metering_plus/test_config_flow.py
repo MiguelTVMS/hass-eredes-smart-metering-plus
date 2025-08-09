@@ -19,14 +19,16 @@ async def test_form(hass: HomeAssistant, mock_setup_entry: AsyncMock) -> None:
     assert result["errors"] is None  # No errors on initial form
     assert result["step_id"] == "user"
 
-    # Check that webhook_url is in the form data schema
-    assert "webhook_url" in result["data_schema"].schema
+    # Check that the schema is empty (no input fields needed)
+    assert result["data_schema"].schema == {}
 
-    # Complete the flow by submitting the form with webhook_url
-    # (since it's readonly, the value doesn't matter)
+    # Check that the webhook URL is available in placeholders
+    assert "webhook_url" in result["description_placeholders"]
+
+    # Complete the flow by submitting empty form (no input data needed)
     result = await hass.config_entries.flow.async_configure(
         result["flow_id"],
-        {"webhook_url": "http://example.com/webhook"},
+        {},  # Empty dict for empty schema
     )
     await hass.async_block_till_done()
 
@@ -56,19 +58,16 @@ async def test_options_flow_webhook_url_display(hass: HomeAssistant) -> None:
     assert result["type"] is FlowResultType.FORM
     assert result["step_id"] == "init"
 
-    # Check that the webhook URL is displayed in the form
-    assert "webhook_url" in result["data_schema"].schema
+    # Check that the schema is empty (no input fields needed)
+    assert result["data_schema"].schema == {}
 
-    # Check that the webhook URL from config entry is available in placeholders
-    assert (
-        result["description_placeholders"]["webhook_url"]
-        == "https://example.com/api/webhook/test-webhook-id-123"
-    )
+    # Check that the webhook URL is available in placeholders
+    assert "webhook_url" in result["description_placeholders"]
 
-    # Complete the options flow
+    # Complete the options flow (no input data needed for empty schema)
     result = await hass.config_entries.options.async_configure(
         result["flow_id"],
-        {"webhook_url": "https://example.com/api/webhook/test-webhook-id-123"},
+        {},  # Empty dict for empty schema
     )
 
     assert result["type"] is FlowResultType.CREATE_ENTRY
