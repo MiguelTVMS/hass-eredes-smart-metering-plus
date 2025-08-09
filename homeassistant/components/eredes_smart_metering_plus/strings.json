@@ -17,5 +17,18 @@
     "abort": {
       "already_configured": "[%key:common::config_flow::abort::already_configured_device%]"
     }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "description": "This is your webhook URL that should be configured in your E-Redes provider dashboard. Copy the URL below if you need to reconfigure it:",
+        "data": {
+          "webhook_url": "Webhook URL"
+        },
+        "data_description": {
+          "webhook_url": "Use this URL in your E-Redes provider dashboard to receive smart meter data."
+        }
+      }
+    }
   }
 }

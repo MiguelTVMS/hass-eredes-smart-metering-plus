@@ -8,7 +8,13 @@ from typing import Any
 import voluptuous as vol
 
 from homeassistant.components import webhook
-from homeassistant.config_entries import ConfigFlow, ConfigFlowResult
+from homeassistant.config_entries import (
+    ConfigEntry,
+    ConfigFlow,
+    ConfigFlowResult,
+    OptionsFlow,
+)
+from homeassistant.core import callback
 
 from .const import DOMAIN
 
@@ -36,6 +42,12 @@ class EredesSmartMeteringPlusConfigFlow(ConfigFlow, domain=DOMAIN):
     def __init__(self) -> None:
         """Initialize the config flow."""
         self._webhook_id: str | None = None
+
+    @staticmethod
+    @callback
+    def async_get_options_flow(config_entry: ConfigEntry) -> OptionsFlow:
+        """Return the options flow."""
+        return EredesSmartMeteringPlusOptionsFlow()
 
     async def async_step_user(
         self, user_input: dict[str, Any] | None = None
@@ -65,4 +77,26 @@ class EredesSmartMeteringPlusConfigFlow(ConfigFlow, domain=DOMAIN):
             step_id="user",
             data_schema=create_webhook_info_schema(preview_url),
             description_placeholders={"webhook_url": preview_url},
+        )
+
+
+class EredesSmartMeteringPlusOptionsFlow(OptionsFlow):
+    """Handle options flow for E-Redes Smart Metering Plus."""
+
+    async def async_step_init(
+        self, user_input: dict[str, Any] | None = None
+    ) -> ConfigFlowResult:
+        """Manage the options for the integration."""
+        # Get the webhook URL from config entry data
+        webhook_url = self.config_entry.data.get("webhook_url", "URL not available")
+
+        if user_input is not None:
+            # User clicked "OK" or similar, just return to main menu
+            return self.async_create_entry(title="", data={})
+
+        # Show the webhook URL in a read-only form
+        return self.async_show_form(
+            step_id="init",
+            data_schema=create_webhook_info_schema(webhook_url),
+            description_placeholders={"webhook_url": webhook_url},
         )
