@@ -55,21 +55,14 @@ async def test_options_flow_webhook_url_display(hass: HomeAssistant) -> None:
     # Start the options flow
     result = await hass.config_entries.options.async_init(config_entry.entry_id)
 
-    assert result["type"] is FlowResultType.FORM
+    assert result["type"] is FlowResultType.MENU
     assert result["step_id"] == "init"
 
-    # Check that the schema is empty (no input fields needed)
-    assert result["data_schema"].schema == {}
+    # Check that the menu options are empty (only close button)
+    assert result["menu_options"] == []
 
     # Check that the webhook URL is available in placeholders
     assert "webhook_url" in result["description_placeholders"]
 
-    # Complete the options flow (no input data needed for empty schema)
-    result = await hass.config_entries.options.async_configure(
-        result["flow_id"],
-        {},  # Empty dict for empty schema
-    )
-
-    assert result["type"] is FlowResultType.CREATE_ENTRY
-    assert result["title"] == ""
-    assert result["data"] == {}
+    # With empty menu options, the flow shows only a close button
+    # No further configuration is possible or needed

@@ -82,14 +82,9 @@ class EredesSmartMeteringPlusOptionsFlow(OptionsFlow):
         else:
             webhook_url = "URL not available"
 
-        if user_input is not None:
-            # User clicked the close button, just return to main menu
-            return self.async_create_entry(title="", data={})
-
-        # Show the webhook URL with an empty schema (no input fields)
-        # The webhook URL will be displayed in the description
-        return self.async_show_form(
+        # Show the webhook URL as a menu with no options (only close button)
+        return self.async_show_menu(
             step_id="init",
-            data_schema=vol.Schema({}),  # Empty schema = no input fields
+            menu_options=[],  # Empty list = only close button
             description_placeholders={"webhook_url": webhook_url},
         )
