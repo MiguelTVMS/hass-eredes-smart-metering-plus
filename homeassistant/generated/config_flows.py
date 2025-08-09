@@ -184,6 +184,7 @@ FLOWS = {
         "epion",
         "epson",
         "eq3btsmart",
+        "eredes_smart_metering_plus",
         "escea",
         "esphome",
         "eufylife_ble",

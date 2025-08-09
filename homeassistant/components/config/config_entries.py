@@ -389,6 +389,12 @@ def config_entries_flow_subscribe(
             )
             return
         # change_type == "added"
+        try:
+            flow = hass.config_entries.flow.async_get(flow_id)
+        except data_entry_flow.UnknownFlow:
+            # Flow might have been removed between subscription trigger and this call
+            return
+
         connection.send_message(
             websocket_api.event_message(
                 msg["id"],
@@ -396,7 +402,7 @@ def config_entries_flow_subscribe(
                     {
                         "type": change_type,
                         "flow_id": flow_id,
-                        "flow": hass.config_entries.flow.async_get(flow_id),
+                        "flow": flow,
                     }
                 ],
             )

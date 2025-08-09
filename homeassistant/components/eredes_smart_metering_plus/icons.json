@@ -1,0 +1,20 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "sections": {
+          "webhook_info": "mdi:transmission-tower"
+        }
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "sections": {
+          "webhook_display": "mdi:transmission-tower"
+        }
+      }
+    }
+  }
+}
